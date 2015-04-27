@@ -1,0 +1,1289 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     44341,       1280]
+NotebookOptionsPosition[     39813,       1122]
+NotebookOutlinePosition[     41063,       1164]
+CellTagsIndexPosition[     40851,       1156]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "Convex Hull and Vertex Enumeration by ",
+ StyleBox["cddlib",
+  FontColor->RGBColor[0.517113, 0.0273594, 0.0273594]],
+ "\nby Komei Fukuda\nApril 17, 2001"
+}], "Title",
+ CellChangeTimes->{{3.639104749081427*^9, 3.639104762386621*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["Connecting  cddlib", "Subsection",
+ InitializationCell->True,
+ CellChangeTimes->{{3.639104768997294*^9, 3.639104772146966*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "You just put the compiled cddmathlink for your computer in some directory.  \
+In this example, the name of the directory is ",
+ StyleBox["\"~/Binaries\".",
+  FontFamily->"Courier",
+  FontWeight->"Bold"]
+}], "Text",
+ InitializationCell->True,
+ CellChangeTimes->{{3.639109815439075*^9, 3.639109818892597*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell["Off[General::spell1]; Off[General::spell];", "Input",
+ InitializationCell->True,
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+cddlib=
+Install[\"~/Binaries/cddwstpgmp\"]\
+\>", "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.639109823396632*^9, 3.6391098393331547`*^9}, {
+  3.639109877053104*^9, 3.6391098803165283`*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["LinkObject",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False}, 
+    PanelBox[
+     PaneSelectorBox[{False->GridBox[{
+        {
+         PaneBox[
+          ButtonBox[
+           
+           DynamicBox[FEPrivate`FrontEndResource[
+            "FEBitmaps", "SquarePlusIconMedium"],
+            ImageSizeCache->{12., {0., 12.}}],
+           Appearance->None,
+           ButtonFunction:>(Typeset`open$$ = True),
+           Evaluator->Automatic,
+           Method->"Preemptive"],
+          Alignment->{Center, Center},
+          
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
+         GraphicsBox[
+          {Thickness[0.038461538461538464`], 
+           {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
+            FilledCurveBox[{{{1, 4, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}, {1, 
+             3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}}}, {{{25.499999999999996`,
+              2.5}, {25.499999999999996`, 1.3953100000000003`}, {
+             24.604699999999998`, 0.49999999999999994`}, {23.5, 
+             0.49999999999999994`}, {2.5, 0.49999999999999994`}, {
+             1.3953100000000003`, 0.49999999999999994`}, {
+             0.49999999999999994`, 1.3953100000000003`}, {
+             0.49999999999999994`, 2.5}, {0.49999999999999994`, 23.5}, {
+             0.49999999999999994`, 24.604699999999998`}, {1.3953100000000003`,
+              25.499999999999996`}, {2.5, 25.499999999999996`}, {23.5, 
+             25.499999999999996`}, {24.604699999999998`, 
+             25.499999999999996`}, {25.499999999999996`, 
+             24.604699999999998`}, {25.499999999999996`, 23.5}, {
+             25.499999999999996`, 2.5}}}]}, 
+           {FaceForm[{RGBColor[0.5, 0.5, 0.5], Opacity[1.]}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{20.5426, 
+             19.116799999999998`}, {16.3832, 21.876199999999997`}, {16.3832, 
+             20.021499999999996`}, {6.930469999999999, 20.021499999999996`}, {
+             6.930469999999999, 18.212100000000003`}, {16.3832, 
+             18.212100000000003`}, {16.3832, 16.357399999999995`}, {20.5426, 
+             19.116799999999998`}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{5.30508, 13.8391}, {9.46445, 
+             11.079700000000003`}, {9.46445, 12.933999999999997`}, {
+             18.917199999999998`, 12.933999999999997`}, {18.917199999999998`, 
+             14.7438}, {9.46445, 14.7438}, {9.46445, 16.598}, {5.30508, 
+             13.8391}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{5.30508, 13.8391}, {9.46445, 
+             11.079700000000003`}, {9.46445, 12.933999999999997`}, {
+             18.917199999999998`, 12.933999999999997`}, {18.917199999999998`, 
+             14.7438}, {9.46445, 14.7438}, {9.46445, 16.598}, {5.30508, 
+             13.8391}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0,
+              1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {
+             0, 1, 0}, {0, 1, 0}, {0, 1, 0}}}, CompressedData["
+1:eJxTTMoPSmVmYGBgBGIRIGYC4sIjUTVcAooO8+XdOPpnKDg8YkwNXuen7JA2
+W/qycJSgw5sbHEde31CB82PFhGf3n1V1aFVgVz0zR8oBrF9czWFHsFXE/9Wy
+Dje0Dj4qiFWDy7cVLYptDVKH65/g6Xbu0HMNOB9sn4I23H6w+SWacD5De8DS
+tDQNB7ldC/alskg4aD2+nx6joeFgnPFi/oMZog5B9vlaQa/UHao9k7f0KUhA
++D/UUPVbqML5jCB+oIpDzJHypGv8Eg4eGad3ikiqwM2T57H5LndPGW6eya7m
+GzMvKcH1o4cXABG3d/Y=
+             "]], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}}}, {{{14.163129999999999`, 4.337966249999999}, {
+             16.96813, 4.337966249999999}, {16.96813, 5.047809999999999}, {
+             14.98813, 5.047809999999999}, {14.98813, 8.29796625}, {
+             14.163129999999999`, 8.29796625}, {14.163129999999999`, 
+             4.337966249999999}}}]}},
+          AspectRatio->1,
+          Axes->False,
+          Background->GrayLevel[0.93],
+          Frame->True,
+          FrameStyle->Directive[
+            Thickness[Tiny], 
+            GrayLevel[0.7]],
+          FrameTicks->None,
+          ImageSize->{Automatic, 
+            Dynamic[
+            3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification]), ImageSizeCache -> {45., {0., 9.}}]}], 
+         GridBox[{
+           {
+            RowBox[{
+             TagBox["\<\"Name: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              StyleBox[
+               PaneBox["\<\"'/Users/HXiao/Binaries/cddwstpgmp'\"\>",
+                BaselinePosition->Baseline,
+                ContentPadding->False,
+                FrameMargins->0,
+                ImageSize->{{1, 300}, Automatic},
+                StripOnInput->True],
+               LineBreakWithin->False],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Link mode: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["Listen",
+              "SummaryItem"]}]}
+          },
+          AutoDelete->False,
+          
+          BaseStyle->{
+           ShowStringCharacters -> False, NumberMarks -> False, 
+            PrintPrecision -> 3, ShowSyntaxStyles -> False},
+          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
+          GridBoxItemSize->{
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
+       },
+       AutoDelete->False,
+       BaselinePosition->{1, 1},
+       GridBoxAlignment->{"Rows" -> {{Top}}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], True->
+      GridBox[{
+        {
+         PaneBox[
+          ButtonBox[
+           
+           DynamicBox[FEPrivate`FrontEndResource[
+            "FEBitmaps", "SquareMinusIconMedium"]],
+           Appearance->None,
+           ButtonFunction:>(Typeset`open$$ = False),
+           Evaluator->Automatic,
+           Method->"Preemptive"],
+          Alignment->{Center, Center},
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
+         GraphicsBox[
+          {Thickness[0.038461538461538464`], 
+           {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
+            FilledCurveBox[{{{1, 4, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}, {1, 
+             3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}}}, {{{25.499999999999996`,
+              2.5}, {25.499999999999996`, 1.3953100000000003`}, {
+             24.604699999999998`, 0.49999999999999994`}, {23.5, 
+             0.49999999999999994`}, {2.5, 0.49999999999999994`}, {
+             1.3953100000000003`, 0.49999999999999994`}, {
+             0.49999999999999994`, 1.3953100000000003`}, {
+             0.49999999999999994`, 2.5}, {0.49999999999999994`, 23.5}, {
+             0.49999999999999994`, 24.604699999999998`}, {1.3953100000000003`,
+              25.499999999999996`}, {2.5, 25.499999999999996`}, {23.5, 
+             25.499999999999996`}, {24.604699999999998`, 
+             25.499999999999996`}, {25.499999999999996`, 
+             24.604699999999998`}, {25.499999999999996`, 23.5}, {
+             25.499999999999996`, 2.5}}}]}, 
+           {FaceForm[{RGBColor[0.5, 0.5, 0.5], Opacity[1.]}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{20.5426, 
+             19.116799999999998`}, {16.3832, 21.876199999999997`}, {16.3832, 
+             20.021499999999996`}, {6.930469999999999, 20.021499999999996`}, {
+             6.930469999999999, 18.212100000000003`}, {16.3832, 
+             18.212100000000003`}, {16.3832, 16.357399999999995`}, {20.5426, 
+             19.116799999999998`}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{5.30508, 13.8391}, {9.46445, 
+             11.079700000000003`}, {9.46445, 12.933999999999997`}, {
+             18.917199999999998`, 12.933999999999997`}, {18.917199999999998`, 
+             14.7438}, {9.46445, 14.7438}, {9.46445, 16.598}, {5.30508, 
+             13.8391}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{5.30508, 13.8391}, {9.46445, 
+             11.079700000000003`}, {9.46445, 12.933999999999997`}, {
+             18.917199999999998`, 12.933999999999997`}, {18.917199999999998`, 
+             14.7438}, {9.46445, 14.7438}, {9.46445, 16.598}, {5.30508, 
+             13.8391}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0,
+              1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {
+             0, 1, 0}, {0, 1, 0}, {0, 1, 0}}}, CompressedData["
+1:eJxTTMoPSmVmYGBgBGIRIGYC4sIjUTVcAooO8+XdOPpnKDg8YkwNXuen7JA2
+W/qycJSgw5sbHEde31CB82PFhGf3n1V1aFVgVz0zR8oBrF9czWFHsFXE/9Wy
+Dje0Dj4qiFWDy7cVLYptDVKH65/g6Xbu0HMNOB9sn4I23H6w+SWacD5De8DS
+tDQNB7ldC/alskg4aD2+nx6joeFgnPFi/oMZog5B9vlaQa/UHao9k7f0KUhA
++D/UUPVbqML5jCB+oIpDzJHypGv8Eg4eGad3ikiqwM2T57H5LndPGW6eya7m
+GzMvKcH1o4cXABG3d/Y=
+             "]], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}}}, {{{14.163129999999999`, 4.337966249999999}, {
+             16.96813, 4.337966249999999}, {16.96813, 5.047809999999999}, {
+             14.98813, 5.047809999999999}, {14.98813, 8.29796625}, {
+             14.163129999999999`, 8.29796625}, {14.163129999999999`, 
+             4.337966249999999}}}]}},
+          AspectRatio->1,
+          Axes->False,
+          Background->GrayLevel[0.93],
+          Frame->True,
+          FrameStyle->Directive[
+            Thickness[Tiny], 
+            GrayLevel[0.7]],
+          FrameTicks->None,
+          ImageSize->{Automatic, 
+            Dynamic[
+            3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification]), ImageSizeCache -> {45., {0., 9.}}]}], 
+         GridBox[{
+           {
+            RowBox[{
+             TagBox["\<\"Name: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              PaneBox["\<\"'/Users/HXiao/Binaries/cddwstpgmp'\"\>",
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Link mode: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["Listen",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Link protocol: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["\<\"SharedMemory\"\>",
+              "SummaryItem"]}]}
+          },
+          AutoDelete->False,
+          
+          BaseStyle->{
+           ShowStringCharacters -> False, NumberMarks -> False, 
+            PrintPrecision -> 3, ShowSyntaxStyles -> False},
+          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
+          GridBoxItemSize->{
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
+       },
+       AutoDelete->False,
+       BaselinePosition->{1, 1},
+       GridBoxAlignment->{"Rows" -> {{Top}}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]}, Dynamic[
+      Typeset`open$$],
+      ImageSize->Automatic],
+     BaselinePosition->Baseline],
+    DynamicModuleValues:>{}], "]"}],
+  LinkObject["'/Users/HXiao/Binaries/cddwstpgmp'", 1588, 5],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{
+  3.6391098561607*^9, {3.639109893066976*^9, 3.639109915885002*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Generating All Vertices ", "Subsection",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["?AllVertices", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ StyleBox["\<\"AllVertices[m,d+1,A] generates all extreme points (vertices) \
+and extreme rays of the convex polyhedron in R^(d+1) given as the solution \
+set to an inequality system  A x >= 0 where  A is an m*(d+1) matrix  and  \
+x=(1,x1,...,xd).  The output is {{extlist, linearity}, ecdlist} where extlist \
+is  the extreme point list and ecdlist is the incidence list.  Each vertex \
+(ray) has the first component 1 (0).  If the convex polyhedron is nonempty \
+and has no vertices, extlist is a (nonunique) set of generators of the \
+polyhedron where those generators in the linearity list are considered as \
+linearity space (of points satisfying A (0, x1, x2, ...., xd) = 0)  \
+generators.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.639109924428782*^9},
+ CellTags->"Info3639138724-4372461"],
+
+Cell["\<\
+Let's try this function with a 3-dimenstional cube defined by 6 inequalities \
+(facets);  
+x1  >= 0, x2 >=0, x3 >= 0, 1 - x1 >= 0,   1 - x2 >= 0 and  1 - x3 >= 0.  We \
+write these six inequalities  as   A  x  >=  0  and  x=(1, x1, x2, x3).\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+MatrixForm[a={{0,1,0,0},{0,0,1,0},{0,0,0,1},
+\t{1,-1,0,0},{1,0,-1,0},{1,0,0,-1}}]\
+\>", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", "1", "0", "0"},
+     {"0", "0", "1", "0"},
+     {"0", "0", "0", "1"},
+     {"1", 
+      RowBox[{"-", "1"}], "0", "0"},
+     {"1", "0", 
+      RowBox[{"-", "1"}], "0"},
+     {"1", "0", "0", 
+      RowBox[{"-", "1"}]}
+    }], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output"],
+
+Cell[CellGroupData[{
+
+Cell["{m,d1}=Dimensions[a]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"6", ",", "4"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+{{vertices, linearity}, incidences}=AllVertices[m,d1,ToString[Flatten[a]]]\
+\>", "Input",
+ CellChangeTimes->{{3.639109378427095*^9, 3.6391093884821367`*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "1.`", ",", "1.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "1.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "1.`", ",", "0.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "0.`", ",", "1.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "1.`", ",", "0.`", ",", "1.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "1.`", ",", "1.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "1.`", ",", "1.`", ",", "1.`"}], "}"}]}], "}"}], 
+     ",", 
+     RowBox[{"{", "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"3", ",", "4", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "4"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "4", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "5", ",", "6"}], "}"}]}], "}"}]}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Generating the Graph Structure", "Subsection",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["?AllVerticesWithAdjacency", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ StyleBox["\<\"AllVerticesWithAdjacency[m,d+1,A] generates all extreme points \
+(vertices) and extreme rays of the convex polyhedron in R^(d+1) given as the \
+solution set to an inequality system  A x >= 0 where   A is an m*(d+1) matrix \
+ and x=(1,x1,...,xd). The output is {{extlist, linearity}, ecdlist, eadlist, \
+icdlist, iadlist} where extlist, ecdlist, eadlist are the extreme point list, \
+the incidence list, the adjacency list (of extreme points and rays), and \
+icdlist, iadlist are the incidence list, the adjacency list (of \
+inequalities).  Each vertex (ray) has the first component 1 (0). If the \
+convex polyhedron is nonempty and has no vertices, extlist is a (nonunique) \
+set of generators of the polyhedron where those generators in the linearity \
+list are considered as linearity space (of points satisfying A (0, x1, x2, \
+...., xd) = 0) generators.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.639109930877109*^9},
+ CellTags->"Info3639138730-4372461"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+{{vertices,linearity},ecd,ead,icd,iad}=
+\tAllVerticesWithAdjacency[m,d1,ToString[Flatten[a]]]\
+\>", "Input",
+ CellChangeTimes->{{3.639109463430876*^9, 3.6391094692204847`*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "1.`", ",", "1.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "1.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "1.`", ",", "0.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "0.`", ",", "1.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "1.`", ",", "0.`", ",", "1.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "1.`", ",", "1.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "1.`", ",", "1.`", ",", "1.`"}], "}"}]}], "}"}], 
+     ",", 
+     RowBox[{"{", "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"3", ",", "4", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "4"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "4", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "5", ",", "6"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "4", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "7"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "4", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "6", ",", "7"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "5", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "5", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "6", ",", "7"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "5", ",", "7"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "4", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3", ",", "4"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "4", ",", "6", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "7", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"5", ",", "6", ",", "7", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "4", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "4", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "4", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "4", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", "}"}]}], "}"}]}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[TextData[{
+ "The graph structure is output as the adjacency  list  ",
+ StyleBox["ead. ",
+  FontFamily->"Courier",
+  FontWeight->"Bold"],
+ "For example, the first list {2, 4 ,8} represents the neighbour vertices of \
+the first vertex 1.  The adjacency of input is given by\nthe list  ",
+ StyleBox["iad.",
+  FontFamily->"Courier",
+  FontWeight->"Bold"]
+}], "Text",
+ ImageRegion->{{0, 1}, {0, 1}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Convex Hull (Facet Generation)", "Subsection",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["?AllFacets", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ StyleBox["\<\"AllFacets[n,d+1,G] generates all facet inequalities of the \
+convex polyhedron in R^(d+1) generated by points and rays given in the rows \
+of an n*(d+1) matrix G.  Each point (ray) must have 1 (0) in the first \
+coordinate.  The output is {{faclist, equalities}, icdlist} where faclist is  \
+the facet  list and icdlist is the incidence list.  If the convex polyhedron \
+is not full-dimensional, extlist is a (nonunique) set of inequalities of the \
+polyhedron where those inequalities in the equalities list are considered as \
+equalities.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.63910993927591*^9},
+ CellTags->"Info3639138739-4372461"],
+
+Cell["\<\
+We have computed all the vertices of a 3-cube.  Let's try the reverse \
+operation.  First check the size of the list of vertics.   It should \
+reconstruct the facets we have started with.\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["{n, d1}=Dimensions[vertices]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"8", ",", "4"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+
+{{facets,equalities}, fincidences}= \
+AllFacets[n,d1,ToString[Flatten[vertices]]]\
+\>", "Input",
+ CellChangeTimes->{{3.639109511456114*^9, 3.639109521957999*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "1.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", "1.`", ",", "0.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", "0.`", ",", "1.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "0.`", ",", 
+         RowBox[{"-", "1.`"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", 
+         RowBox[{"-", "1.`"}], ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", 
+         RowBox[{"-", "1.`"}], ",", "0.`", ",", "0.`"}], "}"}]}], "}"}], ",", 
+     
+     RowBox[{"{", "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3", ",", "4"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "5", ",", "7"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "4", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"5", ",", "6", ",", "7", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "7", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "4", ",", "6", ",", "8"}], "}"}]}], "}"}]}], 
+  "}"}]], "Output"]
+}, Open  ]],
+
+Cell[TextData[{
+ "We can compute how the facets are connected by using ",
+ StyleBox["AllFacetsWithAdjacency",
+  FontWeight->"Bold"],
+ " function."
+}], "Text",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "AllFacetsWithAdjacency"}]], "Input",
+ CellChangeTimes->{{3.6391099901813602`*^9, 3.639110000544677*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"AllFacetsWithAdjacency[n,d+1,G] generates all facet \
+inequalities of the convex polyhedron in R^(d+1) generated by points and rays \
+given in the rows of an n*(d+1) matrix G.  Each point (ray) must have 1 (0) \
+in the first coordinate.  The output is {{faclist, equalities}, icdlist, \
+iadlist, ecdlist, eadlist} where faclist, icdlist, iadlist are the facet \
+list, the incidence list, the adjacency list (of facets), and ecdlist, \
+eadlist are the incidence list, the adjacency list (of points and rays).  If \
+the convex polyhedron is not full-dimensional, extlist is a (nonunique) set \
+of inequalities of the polyhedron where those inequalities in the equalities \
+list are considered as equalities.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.639110003613439*^9},
+ CellTags->"Info3639138803-4372461"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+{{facets,equalities}, icd,iad, ecd,ead}= 
+\tAllFacetsWithAdjacency[n,d1,ToString[Flatten[vertices]]]\
+\>", "Input",
+ CellChangeTimes->{{3.6391095603537893`*^9, 3.639109565735363*^9}, 
+   3.6391100132175198`*^9},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", "0.`", ",", "0.`", ",", "1.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", "1.`", ",", "0.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", "0.`", ",", "1.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "0.`", ",", 
+         RowBox[{"-", "1.`"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", 
+         RowBox[{"-", "1.`"}], ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", 
+         RowBox[{"-", "1.`"}], ",", "0.`", ",", "0.`"}], "}"}]}], "}"}], ",", 
+     
+     RowBox[{"{", "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3", ",", "4"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "5", ",", "7"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "4", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"5", ",", "6", ",", "7", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "7", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "4", ",", "6", ",", "8"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "4", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "4", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "4", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "4", ",", "5"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "5", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "3", ",", "4"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "4", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "4", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "5", ",", "6"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "4", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "7"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "4", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "6", ",", "7"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "5", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "5", ",", "8"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "6", ",", "7"}], "}"}]}], "}"}]}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+If you want to compute an inequality description of the one-dimensional cone \
+in R^3 with a vertex at origin and containing the direction (1,1,1), you must \
+set up the input (generator) data as:\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["coneGenerators={{1,0,0,0},{0,1,1,1}}", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"1", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "1", ",", "1"}], "}"}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+{{cfacets,cequalities}, cfincidences}= 
+\tAllFacets[2,4,ToString[Flatten[coneGenerators]]]\
+\>", "Input",
+ CellChangeTimes->{{3.63910965295818*^9, 3.639109670345532*^9}, 
+   3.639110347103483*^9},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1.`", ",", "0.`", ",", "0.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", "1.`", ",", "0.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", 
+         RowBox[{"-", "1.`"}], ",", "1.`", ",", "0.`"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0.`", ",", 
+         RowBox[{"-", "1.`"}], ",", "0.`", ",", "1.`"}], "}"}]}], "}"}], ",", 
+     
+     RowBox[{"{", 
+      RowBox[{"3", ",", "4"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "2", "}"}], ",", 
+     RowBox[{"{", "1", "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2"}], "}"}]}], "}"}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Since the equalities list contains 3 and 4, of the four output inequalities , \
+the third and the forth must be considered as equalities.  It is important to \
+note that this cone can have infinitely many different minimal inequality \
+descriptions, since it is not full-dimensional.\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}}]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["A Larger Example (Random 0/1 Polytopes)", "Subsection",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell["\<\
+Let's compute the convex hull of 0/1 points in R^d.  First generate 0/1 \
+points.  Below each point with the first component 0 is considered as a \
+direction that must be included in the convex hull.\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->13],
+
+Cell["n=30; d1=8;", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+points=Table[Prepend[Table[Random[Integer,{0,1}],{d1-1}],0],{n}]\
+\>", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "0", ",", "1", ",", "0", ",", "1", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "0", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "1", ",", "1", ",", "1", ",", "0", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "1", ",", "1", ",", "0", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", "1", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "1", ",", "1", ",", "1", ",", "0", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", "1", ",", "1", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "0", ",", "0", ",", 
+     "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", "1", ",", "0", ",", 
+     "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0", ",", "0", ",", "0", ",", "0", ",", "1", ",", "0", ",", "1", ",", 
+     "1"}], "}"}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Dimensions[points]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"30", ",", "8"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+
+{CPUtime, {{facets,equalities}, inc}}= 
+\tTiming[AllFacets[n,d1,ToString[Flatten[points]]]];\
+\>", "Input",
+ CellChangeTimes->{{3.639040800167715*^9, 3.639040820639759*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["{CPUtime,Length[facets]}", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"0.`", " ", "Second"}], ",", "33"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Usually facets of 0/1 polytopes are very pretty and their coefficients are \
+small integers.\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["Take[facets,5]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+    "0.`", ",", "0.`", ",", "0.`", ",", "1.`", ",", "0.`", ",", "0.`", ",", 
+     "0.`", ",", "0.`"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.`", ",", 
+     RowBox[{"-", "1.`"}], ",", "0.`", ",", "1.`", ",", "0.`", ",", "1.`", 
+     ",", "0.`", ",", "1.`"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0.`", ",", 
+     RowBox[{"-", "1.`"}], ",", 
+     RowBox[{"-", "1.`"}], ",", "1.`", ",", "0.`", ",", "1.`", ",", "1.`", 
+     ",", "1.`"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0.`", ",", "0.`", ",", "0.`", ",", "0.`", ",", "0.`", ",", "0.`", ",", 
+     "0.`", ",", "1.`"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0.`", ",", "0.`", ",", "1.`", ",", "0.`", ",", "1.`", ",", "0.`", ",", 
+     RowBox[{"-", "1.`"}], ",", "1.`"}], "}"}]}], "}"}]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Disconnecting  cddlib", "Subsection",
+ CellChangeTimes->{{3.639104777005589*^9, 3.639104779763199*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["Uninstall[cddlib]", "Input",
+ CellChangeTimes->{{3.639109897071377*^9, 3.639109898430853*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData["\<\"'/Users/HXiao/Binaries/cddwstpgmp'\"\>"], "Output",
+ CellChangeTimes->{{3.639109888008012*^9, 3.6391099012250357`*^9}, 
+   3.6391101371755657`*^9}]
+}, Open  ]]
+}, Closed]]
+},
+AutoGeneratedPackage->None,
+WindowToolbars->{},
+CellGrouping->Manual,
+WindowSize->{583, 634},
+WindowMargins->{{Automatic, 327}, {Automatic, 0}},
+ShowCellLabel->True,
+ShowCellTags->False,
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September 9, \
+2014)",
+StyleDefinitions->"Default.nb",
+PrivateNotebookOptions -> {"ColorPalette" -> {RGBColor, -1}},
+RenderingOptions -> {"ObjectDithering" -> True},
+RenderingOptions -> {"RasterDithering" -> False}
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "Info3639138724-4372461"->{
+  Cell[14389, 341, 826, 12, 187, "Print",
+   CellTags->"Info3639138724-4372461"]},
+ "Info3639138730-4372461"->{
+  Cell[18284, 463, 1003, 14, 223, "Print",
+   CellTags->"Info3639138730-4372461"]},
+ "Info3639138739-4372461"->{
+  Cell[23481, 606, 685, 10, 151, "Print",
+   CellTags->"Info3639138739-4372461"]},
+ "Info3639138803-4372461"->{
+  Cell[26558, 700, 851, 12, 185, "Print",
+   CellTags->"Info3639138803-4372461"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"Info3639138724-4372461", 40408, 1141},
+ {"Info3639138730-4372461", 40520, 1144},
+ {"Info3639138739-4372461", 40633, 1147},
+ {"Info3639138803-4372461", 40745, 1150}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 282, 7, 260, "Title"],
+Cell[CellGroupData[{
+Cell[865, 31, 165, 3, 44, "Subsection",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[1055, 38, 357, 9, 50, "Text",
+ InitializationCell->True],
+Cell[1415, 49, 118, 2, 29, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[1558, 55, 245, 7, 44, "Input",
+ InitializationCell->True],
+Cell[1806, 64, 12355, 262, 62, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[14222, 333, 78, 1, 36, "Subsection"],
+Cell[CellGroupData[{
+Cell[14325, 338, 61, 1, 29, "Input"],
+Cell[14389, 341, 826, 12, 187, "Print",
+ CellTags->"Info3639138724-4372461"],
+Cell[15218, 355, 296, 6, 87, "Text"],
+Cell[CellGroupData[{
+Cell[15539, 365, 138, 4, 44, "Input"],
+Cell[15680, 371, 381, 14, 115, "Output"],
+Cell[CellGroupData[{
+Cell[16086, 389, 69, 1, 29, "Input"],
+Cell[16158, 392, 73, 2, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16268, 399, 199, 4, 29, "Input"],
+Cell[16470, 405, 1555, 42, 97, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[18098, 455, 84, 1, 36, "Subsection"],
+Cell[CellGroupData[{
+Cell[18207, 460, 74, 1, 29, "Input"],
+Cell[18284, 463, 1003, 14, 223, "Print",
+ CellTags->"Info3639138730-4372461"],
+Cell[CellGroupData[{
+Cell[19312, 481, 218, 5, 44, "Input"],
+Cell[19533, 488, 3314, 90, 199, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[22874, 582, 399, 11, 89, "Text"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[23310, 598, 84, 1, 36, "Subsection"],
+Cell[CellGroupData[{
+Cell[23419, 603, 59, 1, 29, "Input"],
+Cell[23481, 606, 685, 10, 151, "Print",
+ CellTags->"Info3639138739-4372461"],
+Cell[24169, 618, 243, 5, 68, "Text"],
+Cell[CellGroupData[{
+Cell[24437, 627, 77, 1, 29, "Input"],
+Cell[24517, 630, 73, 2, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24627, 637, 205, 6, 44, "Input"],
+Cell[24835, 645, 1357, 38, 80, "Output"]
+}, Open  ]],
+Cell[26207, 686, 190, 6, 49, "Text"],
+Cell[CellGroupData[{
+Cell[26422, 696, 133, 2, 28, "Input"],
+Cell[26558, 700, 851, 12, 185, "Print",
+ CellTags->"Info3639138803-4372461"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27446, 717, 253, 6, 44, "Input"],
+Cell[27702, 725, 3137, 87, 182, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[30888, 818, 252, 5, 68, "Text"],
+Cell[CellGroupData[{
+Cell[31165, 827, 85, 1, 29, "Input"],
+Cell[31253, 830, 211, 6, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[31501, 841, 238, 6, 44, "Input"],
+Cell[31742, 849, 871, 27, 46, "Output"]
+}, Open  ]],
+Cell[32628, 879, 339, 6, 87, "Text"]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[33016, 891, 93, 1, 36, "Subsection"],
+Cell[33112, 894, 270, 6, 65, "Text"],
+Cell[33385, 902, 60, 1, 29, "Input"],
+Cell[CellGroupData[{
+Cell[33470, 907, 121, 3, 29, "Input"],
+Cell[33594, 912, 3953, 122, 267, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[37584, 1039, 67, 1, 29, "Input"],
+Cell[37654, 1042, 74, 2, 28, "Output"]
+}, Open  ]],
+Cell[37743, 1047, 216, 6, 59, "Input"],
+Cell[CellGroupData[{
+Cell[37984, 1057, 73, 1, 29, "Input"],
+Cell[38060, 1060, 105, 3, 28, "Output"]
+}, Open  ]],
+Cell[38180, 1066, 148, 4, 49, "Text"],
+Cell[CellGroupData[{
+Cell[38353, 1074, 63, 1, 29, "Input"],
+Cell[38419, 1077, 851, 23, 97, "Output"]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[39319, 1106, 141, 2, 36, "Subsection"],
+Cell[CellGroupData[{
+Cell[39485, 1112, 132, 2, 29, "Input"],
+Cell[39620, 1116, 165, 2, 28, "Output"]
+}, Open  ]]
+}, Closed]]
+}
+]
+*)
+
+(* End of internal cache information *)

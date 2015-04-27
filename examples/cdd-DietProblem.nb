@@ -1,0 +1,834 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     29602,        825]
+NotebookOptionsPosition[     26484,        713]
+NotebookOutlinePosition[     27270,        743]
+CellTagsIndexPosition[     27185,        738]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ StyleBox["Diet Problem",
+  FontColor->RGBColor[0.0557107, 0.137819, 0.517113]],
+ "\nAn Application of Vertex Enumeration\nwith ",
+ StyleBox["cddlib",
+  FontColor->RGBColor[0.517113, 0.0273594, 0.0273594]]
+}], "Title",
+ CellChangeTimes->{{3.6391046523671637`*^9, 3.6391046531078663`*^9}},
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->27],
+
+Cell[TextData[StyleBox["Komei Fukuda, fukuda@ifor.math.ethz.ch\nSwiss Federal \
+Institute of Technology, Lausanne and Zurich\nMarch 14, 1999",
+ FontSize->17,
+ FontSlant->"Italic"]], "Subtitle",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["Connecting  cddlib", "Section",
+ InitializationCell->True,
+ CellChangeTimes->{{3.6391046730718193`*^9, 3.639104674444401*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "You just put the compiled cddmathlink for your computer in some directory.  \
+In this example, the name of the directory is ",
+ StyleBox["\"~/Binaries\".",
+  FontFamily->"Courier",
+  FontWeight->"Bold"]
+}], "Text",
+ InitializationCell->True,
+ CellChangeTimes->{{3.639110092859858*^9, 3.639110095793332*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell["Off[General::spell1]; Off[General::spell];", "Input",
+ InitializationCell->True,
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["cddlib=Install[\"~/Binaries/cddwstp\"]", "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.639110099809403*^9, 3.639110115217767*^9}, {
+  3.639110730983657*^9, 3.6391107314222307`*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["LinkObject",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False}, 
+    PanelBox[
+     PaneSelectorBox[{False->GridBox[{
+        {
+         PaneBox[
+          ButtonBox[
+           
+           DynamicBox[FEPrivate`FrontEndResource[
+            "FEBitmaps", "SquarePlusIconMedium"],
+            ImageSizeCache->{12., {0., 12.}}],
+           Appearance->None,
+           ButtonFunction:>(Typeset`open$$ = True),
+           Evaluator->Automatic,
+           Method->"Preemptive"],
+          Alignment->{Center, Center},
+          
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
+         GraphicsBox[
+          {Thickness[0.038461538461538464`], 
+           {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
+            FilledCurveBox[{{{1, 4, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}, {1, 
+             3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}}}, {{{25.499999999999996`,
+              2.5}, {25.499999999999996`, 1.3953100000000003`}, {
+             24.604699999999998`, 0.49999999999999994`}, {23.5, 
+             0.49999999999999994`}, {2.5, 0.49999999999999994`}, {
+             1.3953100000000003`, 0.49999999999999994`}, {
+             0.49999999999999994`, 1.3953100000000003`}, {
+             0.49999999999999994`, 2.5}, {0.49999999999999994`, 23.5}, {
+             0.49999999999999994`, 24.604699999999998`}, {1.3953100000000003`,
+              25.499999999999996`}, {2.5, 25.499999999999996`}, {23.5, 
+             25.499999999999996`}, {24.604699999999998`, 
+             25.499999999999996`}, {25.499999999999996`, 
+             24.604699999999998`}, {25.499999999999996`, 23.5}, {
+             25.499999999999996`, 2.5}}}]}, 
+           {FaceForm[{RGBColor[0.5, 0.5, 0.5], Opacity[1.]}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{20.5426, 
+             19.116799999999998`}, {16.3832, 21.876199999999997`}, {16.3832, 
+             20.021499999999996`}, {6.930469999999999, 20.021499999999996`}, {
+             6.930469999999999, 18.212100000000003`}, {16.3832, 
+             18.212100000000003`}, {16.3832, 16.357399999999995`}, {20.5426, 
+             19.116799999999998`}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{5.30508, 13.8391}, {9.46445, 
+             11.079700000000003`}, {9.46445, 12.933999999999997`}, {
+             18.917199999999998`, 12.933999999999997`}, {18.917199999999998`, 
+             14.7438}, {9.46445, 14.7438}, {9.46445, 16.598}, {5.30508, 
+             13.8391}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{5.30508, 13.8391}, {9.46445, 
+             11.079700000000003`}, {9.46445, 12.933999999999997`}, {
+             18.917199999999998`, 12.933999999999997`}, {18.917199999999998`, 
+             14.7438}, {9.46445, 14.7438}, {9.46445, 16.598}, {5.30508, 
+             13.8391}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0,
+              1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {
+             0, 1, 0}, {0, 1, 0}, {0, 1, 0}}}, CompressedData["
+1:eJxTTMoPSmVmYGBgBGIRIGYC4sIjUTVcAooO8+XdOPpnKDg8YkwNXuen7JA2
+W/qycJSgw5sbHEde31CB82PFhGf3n1V1aFVgVz0zR8oBrF9czWFHsFXE/9Wy
+Dje0Dj4qiFWDy7cVLYptDVKH65/g6Xbu0HMNOB9sn4I23H6w+SWacD5De8DS
+tDQNB7ldC/alskg4aD2+nx6joeFgnPFi/oMZog5B9vlaQa/UHao9k7f0KUhA
++D/UUPVbqML5jCB+oIpDzJHypGv8Eg4eGad3ikiqwM2T57H5LndPGW6eya7m
+GzMvKcH1o4cXABG3d/Y=
+             "]], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}}}, {{{14.163129999999999`, 4.337966249999999}, {
+             16.96813, 4.337966249999999}, {16.96813, 5.047809999999999}, {
+             14.98813, 5.047809999999999}, {14.98813, 8.29796625}, {
+             14.163129999999999`, 8.29796625}, {14.163129999999999`, 
+             4.337966249999999}}}]}},
+          AspectRatio->1,
+          Axes->False,
+          Background->GrayLevel[0.93],
+          Frame->True,
+          FrameStyle->Directive[
+            Thickness[Tiny], 
+            GrayLevel[0.7]],
+          FrameTicks->None,
+          ImageSize->{Automatic, 
+            Dynamic[
+            3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification]), ImageSizeCache -> {45., {0., 9.}}]}], 
+         GridBox[{
+           {
+            RowBox[{
+             TagBox["\<\"Name: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              StyleBox[
+               PaneBox["\<\"'/Users/HXiao/Binaries/cddwstp'\"\>",
+                BaselinePosition->Baseline,
+                ContentPadding->False,
+                FrameMargins->0,
+                ImageSize->{{1, 300}, Automatic},
+                StripOnInput->True],
+               LineBreakWithin->False],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Link mode: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["Listen",
+              "SummaryItem"]}]}
+          },
+          AutoDelete->False,
+          
+          BaseStyle->{
+           ShowStringCharacters -> False, NumberMarks -> False, 
+            PrintPrecision -> 3, ShowSyntaxStyles -> False},
+          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
+          GridBoxItemSize->{
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
+       },
+       AutoDelete->False,
+       BaselinePosition->{1, 1},
+       GridBoxAlignment->{"Rows" -> {{Top}}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], True->
+      GridBox[{
+        {
+         PaneBox[
+          ButtonBox[
+           
+           DynamicBox[FEPrivate`FrontEndResource[
+            "FEBitmaps", "SquareMinusIconMedium"]],
+           Appearance->None,
+           ButtonFunction:>(Typeset`open$$ = False),
+           Evaluator->Automatic,
+           Method->"Preemptive"],
+          Alignment->{Center, Center},
+          ImageSize->
+           Dynamic[{
+            Automatic, 3.5 CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+             Magnification]}]], 
+         GraphicsBox[
+          {Thickness[0.038461538461538464`], 
+           {FaceForm[{GrayLevel[0.93], Opacity[1.]}], 
+            FilledCurveBox[{{{1, 4, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}, {1, 
+             3, 3}, {0, 1, 0}, {1, 3, 3}, {0, 1, 0}}}, {{{25.499999999999996`,
+              2.5}, {25.499999999999996`, 1.3953100000000003`}, {
+             24.604699999999998`, 0.49999999999999994`}, {23.5, 
+             0.49999999999999994`}, {2.5, 0.49999999999999994`}, {
+             1.3953100000000003`, 0.49999999999999994`}, {
+             0.49999999999999994`, 1.3953100000000003`}, {
+             0.49999999999999994`, 2.5}, {0.49999999999999994`, 23.5}, {
+             0.49999999999999994`, 24.604699999999998`}, {1.3953100000000003`,
+              25.499999999999996`}, {2.5, 25.499999999999996`}, {23.5, 
+             25.499999999999996`}, {24.604699999999998`, 
+             25.499999999999996`}, {25.499999999999996`, 
+             24.604699999999998`}, {25.499999999999996`, 23.5}, {
+             25.499999999999996`, 2.5}}}]}, 
+           {FaceForm[{RGBColor[0.5, 0.5, 0.5], Opacity[1.]}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{20.5426, 
+             19.116799999999998`}, {16.3832, 21.876199999999997`}, {16.3832, 
+             20.021499999999996`}, {6.930469999999999, 20.021499999999996`}, {
+             6.930469999999999, 18.212100000000003`}, {16.3832, 
+             18.212100000000003`}, {16.3832, 16.357399999999995`}, {20.5426, 
+             19.116799999999998`}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{5.30508, 13.8391}, {9.46445, 
+             11.079700000000003`}, {9.46445, 12.933999999999997`}, {
+             18.917199999999998`, 12.933999999999997`}, {18.917199999999998`, 
+             14.7438}, {9.46445, 14.7438}, {9.46445, 16.598}, {5.30508, 
+             13.8391}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{5.30508, 13.8391}, {9.46445, 
+             11.079700000000003`}, {9.46445, 12.933999999999997`}, {
+             18.917199999999998`, 12.933999999999997`}, {18.917199999999998`, 
+             14.7438}, {9.46445, 14.7438}, {9.46445, 16.598}, {5.30508, 
+             13.8391}}}], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0,
+              1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {
+             0, 1, 0}, {0, 1, 0}, {0, 1, 0}}}, CompressedData["
+1:eJxTTMoPSmVmYGBgBGIRIGYC4sIjUTVcAooO8+XdOPpnKDg8YkwNXuen7JA2
+W/qycJSgw5sbHEde31CB82PFhGf3n1V1aFVgVz0zR8oBrF9czWFHsFXE/9Wy
+Dje0Dj4qiFWDy7cVLYptDVKH65/g6Xbu0HMNOB9sn4I23H6w+SWacD5De8DS
+tDQNB7ldC/alskg4aD2+nx6joeFgnPFi/oMZog5B9vlaQa/UHao9k7f0KUhA
++D/UUPVbqML5jCB+oIpDzJHypGv8Eg4eGad3ikiqwM2T57H5LndPGW6eya7m
+GzMvKcH1o4cXABG3d/Y=
+             "]], 
+            FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0}, {0, 
+             1, 0}, {0, 1, 0}}}, {{{14.163129999999999`, 4.337966249999999}, {
+             16.96813, 4.337966249999999}, {16.96813, 5.047809999999999}, {
+             14.98813, 5.047809999999999}, {14.98813, 8.29796625}, {
+             14.163129999999999`, 8.29796625}, {14.163129999999999`, 
+             4.337966249999999}}}]}},
+          AspectRatio->1,
+          Axes->False,
+          Background->GrayLevel[0.93],
+          Frame->True,
+          FrameStyle->Directive[
+            Thickness[Tiny], 
+            GrayLevel[0.7]],
+          FrameTicks->None,
+          ImageSize->{Automatic, 
+            Dynamic[
+            3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+              Magnification]), ImageSizeCache -> {45., {0., 9.}}]}], 
+         GridBox[{
+           {
+            RowBox[{
+             TagBox["\<\"Name: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox[
+              PaneBox["\<\"'/Users/HXiao/Binaries/cddwstp'\"\>",
+               BaselinePosition->Baseline,
+               ContentPadding->False,
+               FrameMargins->0,
+               ImageSize->{{1, 500}, Automatic},
+               StripOnInput->True],
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Link mode: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["Listen",
+              "SummaryItem"]}]},
+           {
+            RowBox[{
+             TagBox["\<\"Link protocol: \"\>",
+              "SummaryItemAnnotation"], "\[InvisibleSpace]", 
+             TagBox["\<\"SharedMemory\"\>",
+              "SummaryItem"]}]}
+          },
+          AutoDelete->False,
+          
+          BaseStyle->{
+           ShowStringCharacters -> False, NumberMarks -> False, 
+            PrintPrecision -> 3, ShowSyntaxStyles -> False},
+          GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+          
+          GridBoxItemSize->{
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+          GridBoxSpacings->{"Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}
+       },
+       AutoDelete->False,
+       BaselinePosition->{1, 1},
+       GridBoxAlignment->{"Rows" -> {{Top}}},
+       GridBoxItemSize->{
+        "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]}, Dynamic[
+      Typeset`open$$],
+      ImageSize->Automatic],
+     BaselinePosition->Baseline],
+    DynamicModuleValues:>{}], "]"}],
+  LinkObject["'/Users/HXiao/Binaries/cddwstp'", 4710, 5],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.639110163946637*^9, 3.639110738845805*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["What is Diet Problem?", "Section",
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->20],
+
+Cell["\<\
+The following diet problem is taken from V. Chvatal's  great book on Linear \
+Programming (\"Linear Programming\", W.H.Freeman and Company,1983).   It is \
+to design a cheapest meal with six possible items below to satisfy prescribed \
+nutritional needs.  Please see Page 3 of the book.\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+var={\"\",\"Oatmeal\",\"Chicken\",\"Eggs\",\"Milk\",\"Cherry Pie\", 
+\t\"Pork Beans\"};
+
+price={\"Price/Ser\", \"3c\", \"24c\", \"13c\", \"9c\", \"20c\", \"19c\"}\
+\>", "Input",
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->14],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"Price/Ser\"\>", ",", "\<\"3c\"\>", ",", "\<\"24c\"\>", 
+   ",", "\<\"13c\"\>", ",", "\<\"9c\"\>", ",", "\<\"20c\"\>", 
+   ",", "\<\"19c\"\>"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+MatrixForm[dietproblem1=
+{{0, 1, 0, 0, 0, 0, 0}, {0, 0, 1, 0, 0, 0, 0},
+ {0, 0, 0, 1, 0, 0, 0}, {0, 0, 0, 0, 1, 0, 0}, 
+ {0, 0, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 0, 1}, 
+ {4, -1, 0, 0, 0, 0, 0}, {3, 0, -1, 0, 0, 0, 0},
+ {2, 0, 0, -1, 0, 0, 0}, {8, 0, 0, 0, -1, 0, 0}, 
+ {2, 0, 0, 0, 0, -1, 0}, {2, 0, 0, 0, 0, 0, -1},
+ {-2000, 110, 205, 160, 160, 420, 260}, 
+ {-55, 4, 32, 13, 8, 4, 14}, 
+ {-800, 2, 12, 54, 285, 22, 80}}];\
+\>", "Input",
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->14],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+TableForm[table1=Prepend[Prepend[dietproblem1,var],price]]
+\
+\>", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"Price/Ser\"\>", "\<\"3c\"\>", "\<\"24c\"\>", "\<\"13c\"\>", "\<\"9c\
+\"\>", "\<\"20c\"\>", "\<\"19c\"\>"},
+    {"\<\"\"\>", "\<\"Oatmeal\"\>", "\<\"Chicken\"\>", "\<\"Eggs\"\>", \
+"\<\"Milk\"\>", "\<\"Cherry Pie\"\>", "\<\"Pork Beans\"\>"},
+    {"0", "1", "0", "0", "0", "0", "0"},
+    {"0", "0", "1", "0", "0", "0", "0"},
+    {"0", "0", "0", "1", "0", "0", "0"},
+    {"0", "0", "0", "0", "1", "0", "0"},
+    {"0", "0", "0", "0", "0", "1", "0"},
+    {"0", "0", "0", "0", "0", "0", "1"},
+    {"4", 
+     RowBox[{"-", "1"}], "0", "0", "0", "0", "0"},
+    {"3", "0", 
+     RowBox[{"-", "1"}], "0", "0", "0", "0"},
+    {"2", "0", "0", 
+     RowBox[{"-", "1"}], "0", "0", "0"},
+    {"8", "0", "0", "0", 
+     RowBox[{"-", "1"}], "0", "0"},
+    {"2", "0", "0", "0", "0", 
+     RowBox[{"-", "1"}], "0"},
+    {"2", "0", "0", "0", "0", "0", 
+     RowBox[{"-", "1"}]},
+    {
+     RowBox[{"-", "2000"}], "110", "205", "160", "160", "420", "260"},
+    {
+     RowBox[{"-", "55"}], "4", "32", "13", "8", "4", "14"},
+    {
+     RowBox[{"-", "800"}], "2", "12", "54", "285", "22", "80"}
+   },
+   GridBoxAlignment->{
+    "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+     "RowsIndexed" -> {}},
+   GridBoxSpacings->{"Columns" -> {
+       Offset[0.27999999999999997`], {
+        Offset[2.0999999999999996`]}, 
+       Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+       Offset[0.2], {
+        Offset[0.4]}, 
+       Offset[0.2]}, "RowsIndexed" -> {}}],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+m=Transpose[Drop[Transpose[dietproblem1],1]];
+b=-First[Transpose[dietproblem1]];
+c={3, 24, 13, 9, 20, 19};\
+\>", "Input",
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->14],
+
+Cell[TextData[{
+ "By using the build-in LP optimizer of ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ ", one can easily compute the optimal solution."
+}], "Text",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["lps=LinearProgramming[c, m,b]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->14],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"4", ",", "0", ",", "0", ",", 
+   FractionBox["9", "2"], ",", "2", ",", "0"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["optvalue= N[c.lps]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->14],
+
+Cell[BoxData["92.5`"], "Output"]
+}, Open  ]],
+
+Cell["\<\
+We can see the optimal solution better in the following table.   It is \
+certainly not an exciting menu.   In fact, an optimal solution to any \
+optimization problem tends to be extreme, and thus it must be modified for \
+practical purposes.\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+TableForm[Join[{var},{Prepend[N[lps],optvalue]}]]
+\
+\>", "Input",
+ ImageRegion->{{0, 1}, {0, 1}},
+ FontSize->14],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"\"\>", "\<\"Oatmeal\"\>", "\<\"Chicken\"\>", "\<\"Eggs\"\>", \
+"\<\"Milk\"\>", "\<\"Cherry Pie\"\>", "\<\"Pork Beans\"\>"},
+    {"92.5`", "4.`", "0.`", "0.`", "4.5`", "2.`", "0.`"}
+   },
+   GridBoxAlignment->{
+    "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+     "RowsIndexed" -> {}},
+   GridBoxSpacings->{"Columns" -> {
+       Offset[0.27999999999999997`], {
+        Offset[2.0999999999999996`]}, 
+       Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+       Offset[0.2], {
+        Offset[0.4]}, 
+       Offset[0.2]}, "RowsIndexed" -> {}}],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Why is the Vertex Enumeration Useful?", "Section",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell["\<\
+Now we try to do something more reasonable.  We use cddmathlink fuction \
+AllVertices:\
+\>", "Subsection",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["?AllVertices", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ StyleBox["\<\"AllVertices[m,d+1,A] generates all extreme points (vertices) \
+and extreme rays of the convex polyhedron in R^(d+1) given as the solution \
+set to an inequality system  A x >= 0 where  A is an m*(d+1) matrix  and  \
+x=(1,x1,...,xd).  The output is {{extlist, linearity}, ecdlist} where extlist \
+is  the extreme point list and ecdlist is the incidence list.  Each vertex \
+(ray) has the first component 1 (0).  If the convex polyhedron is nonempty \
+and has no vertices, extlist is a (nonunique) set of generators of the \
+polyhedron where those generators in the linearity list are considered as \
+linearity space (of points satisfying A (0, x1, x2, ...., xd) = 0)  \
+generators.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.639110179590364*^9},
+ CellTags->"Info3639138979-4372461"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+We can then compute ALL possibilities for cost at most, say One Dollar.\
+\>", "Subsection",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell["BudgetLimit=100;", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+MatrixForm[dietproblem2=Append[dietproblem1, 
+  {BudgetLimit, -3, -24, -13, -9, -20, -19}]]\
+\>", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", "1", "0", "0", "0", "0", "0"},
+     {"0", "0", "1", "0", "0", "0", "0"},
+     {"0", "0", "0", "1", "0", "0", "0"},
+     {"0", "0", "0", "0", "1", "0", "0"},
+     {"0", "0", "0", "0", "0", "1", "0"},
+     {"0", "0", "0", "0", "0", "0", "1"},
+     {"4", 
+      RowBox[{"-", "1"}], "0", "0", "0", "0", "0"},
+     {"3", "0", 
+      RowBox[{"-", "1"}], "0", "0", "0", "0"},
+     {"2", "0", "0", 
+      RowBox[{"-", "1"}], "0", "0", "0"},
+     {"8", "0", "0", "0", 
+      RowBox[{"-", "1"}], "0", "0"},
+     {"2", "0", "0", "0", "0", 
+      RowBox[{"-", "1"}], "0"},
+     {"2", "0", "0", "0", "0", "0", 
+      RowBox[{"-", "1"}]},
+     {
+      RowBox[{"-", "2000"}], "110", "205", "160", "160", "420", "260"},
+     {
+      RowBox[{"-", "55"}], "4", "32", "13", "8", "4", "14"},
+     {
+      RowBox[{"-", "800"}], "2", "12", "54", "285", "22", "80"},
+     {"100", 
+      RowBox[{"-", "3"}], 
+      RowBox[{"-", "24"}], 
+      RowBox[{"-", "13"}], 
+      RowBox[{"-", "9"}], 
+      RowBox[{"-", "20"}], 
+      RowBox[{"-", "19"}]}
+    }], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output"],
+
+Cell[CellGroupData[{
+
+Cell["{m2,d2}=Dimensions[dietproblem2]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"16", ",", "7"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+{{extlist,linearity},inclist}=AllVertices[m2,d2,ToString[Flatten[dietproblem2]\
+]];\
+\>", "Input",
+ CellChangeTimes->{{3.6391105253246737`*^9, 3.639110533529827*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Length[extlist]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData["17"], "Output"]
+}, Open  ]],
+
+Cell["vlist=Map[Drop[#,1]&, extlist];", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell["allsolutions=Union[Map[Prepend[#, N[c.#,3]]&, N[vlist,5]]];", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["TableForm[table2=Prepend[allsolutions,var]]", "Input",
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {"\<\"\"\>", "\<\"Oatmeal\"\>", "\<\"Chicken\"\>", "\<\"Eggs\"\>", \
+"\<\"Milk\"\>", "\<\"Cherry Pie\"\>", "\<\"Pork Beans\"\>"},
+    {"92.5`", "4.`", "0.`", "0.`", "4.5`", "2.`", "0.`"},
+    {"97.33333333333336`", "4.`", "0.`", "0.`", "8.`", "0.6666666666666675`", 
+     "0.`"},
+    {"98.6035889070147`", "4.`", "0.`", "0.`", "2.232952691680261`", "2.`", 
+     "1.3951060358890708`"},
+    {"100.`", "1.6470588235294117`", "0.`", "0.`", "6.117647058823529`", 
+     "2.`", "0.`"},
+    {"100.`", "2.8085106382978777`", "0.`", "0.`", "8.`", 
+     "0.9787234042553182`", "0.`"},
+    {"100.`", "3.7415068699984926`", "0.`", "0.`", "2.1980371432885404`", 
+     "2.`", "1.5259550052846136`"},
+    {"100.`", "4.`", "0.`", "0.`", "2.2091586794462197`", "2.`", 
+     "1.4798722044728432`"},
+    {"100.`", "4.`", "0.`", "0.`", "5.333333333333333`", "2.`", "0.`"},
+    {"100.`", "4.`", "0.`", "0.`", "8.`", "0.8000000000000002`", "0.`"},
+    {"100.`", "4.`", "0.`", "0.49557522123893516`", "8.`", 
+     "0.4778761061946923`", "0.`"},
+    {"100.`", "4.`", "0.`", "1.8750000000000029`", "2.624999999999996`", 
+     "2.`", "0.`"},
+    {"100.`", "4.`", "0.1655305777133171`", "0.`", "2.268813149625332`", 
+     "2.`", "1.2425235678027577`"},
+    {"100.`", "4.`", "0.1872909698996644`", "0.`", "8.`", 
+     "0.5752508361204028`", "0.`"},
+    {"100.`", "4.`", "0.601503759398496`", "0.`", "3.729323308270678`", "2.`",
+      "0.`"},
+    {"100.00000000000001`", "4.`", "0.`", "0.`", "2.179657768651609`", 
+     "1.8828199863107473`", "1.6171937029431882`"},
+    {"100.00000000000001`", "4.`", "0.`", "0.`", "8.`", "0.4172661870503621`",
+      "0.4028776978417242`"},
+    {"100.00000000000001`", "4.`", "0.`", "1.025149700598805`", 
+     "2.2122155688622755`", "2.`", "0.7770059880239508`"}
+   },
+   GridBoxAlignment->{
+    "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+     "RowsIndexed" -> {}},
+   GridBoxSpacings->{"Columns" -> {
+       Offset[0.27999999999999997`], {
+        Offset[2.0999999999999996`]}, 
+       Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+       Offset[0.2], {
+        Offset[0.4]}, 
+       Offset[0.2]}, "RowsIndexed" -> {}}],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell["\<\
+The list is complete in the sense that any feasible menu of cost at most One \
+Dollar is a combination of these seventeen (extreme) solutions.  One can find \
+menus with Chicken, Eggs or Pork that might be much more desireble than the \
+optimal menu.   Also it shows you cannot avoid Oatmeal nor Cherry pie within \
+this budget to satisfy the nutritional needs.\
+\>", "Text",
+ ImageRegion->{{0, 1}, {0, 1}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Disconnecting  cddlib", "Section",
+ CellChangeTimes->{{3.6391046840633583`*^9, 3.6391046865967607`*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[CellGroupData[{
+
+Cell["Uninstall[cddlib]", "Input",
+ CellChangeTimes->{{3.6391101253005457`*^9, 3.63911012670614*^9}},
+ ImageRegion->{{0, 1}, {0, 1}}],
+
+Cell[BoxData["\<\"'/Users/HXiao/Binaries/cddwstp'\"\>"], "Output",
+ CellChangeTimes->{
+  3.639110186822631*^9, {3.639110723945197*^9, 3.639110745218624*^9}}]
+}, Open  ]]
+}, Closed]]
+},
+AutoGeneratedPackage->None,
+WindowToolbars->{},
+CellGrouping->Manual,
+WindowSize->{639, 621},
+WindowMargins->{{Automatic, 81}, {Automatic, 25}},
+ShowCellLabel->True,
+ShowCellTags->False,
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September 9, \
+2014)",
+StyleDefinitions->"Default.nb",
+PrivateNotebookOptions -> {"ColorPalette" -> {RGBColor, -1}},
+RenderingOptions -> {"ObjectDithering" -> True},
+RenderingOptions -> {"RasterDithering" -> False}
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "Info3639138979-4372461"->{
+  Cell[19945, 526, 826, 12, 169, "Print",
+   CellTags->"Info3639138979-4372461"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"Info3639138979-4372461", 27079, 732}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 351, 9, 144, "Title"],
+Cell[912, 31, 225, 4, 84, "Subtitle"],
+Cell[CellGroupData[{
+Cell[1162, 39, 164, 3, 64, "Section",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[1351, 46, 357, 9, 50, "Text",
+ InitializationCell->True],
+Cell[1711, 57, 118, 2, 29, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[1854, 63, 231, 4, 29, "Input",
+ InitializationCell->True],
+Cell[2088, 69, 12321, 261, 62, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[14470, 337, 87, 2, 41, "Section"],
+Cell[14560, 341, 342, 6, 87, "Text"],
+Cell[CellGroupData[{
+Cell[14927, 351, 234, 7, 78, "Input"],
+Cell[15164, 360, 205, 4, 28, "Output"]
+}, Open  ]],
+Cell[15384, 367, 493, 13, 174, "Input"],
+Cell[CellGroupData[{
+Cell[15902, 384, 116, 4, 44, "Input"],
+Cell[16021, 390, 1584, 42, 301, "Output"]
+}, Open  ]],
+Cell[17620, 435, 178, 6, 62, "Input"],
+Cell[17801, 443, 201, 6, 49, "Text"],
+Cell[CellGroupData[{
+Cell[18027, 453, 93, 2, 30, "Input"],
+Cell[18123, 457, 135, 3, 47, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[18295, 465, 82, 2, 30, "Input"],
+Cell[18380, 469, 32, 0, 28, "Output"]
+}, Open  ]],
+Cell[18427, 472, 297, 6, 68, "Text"],
+Cell[CellGroupData[{
+Cell[18749, 482, 122, 5, 46, "Input"],
+Cell[18874, 489, 694, 17, 47, "Output"]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[19617, 512, 88, 1, 50, "Section"],
+Cell[19708, 515, 148, 4, 69, "Subsection"],
+Cell[CellGroupData[{
+Cell[19881, 523, 61, 1, 23, "Input"],
+Cell[19945, 526, 826, 12, 169, "Print",
+ CellTags->"Info3639138979-4372461"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20808, 543, 133, 3, 69, "Subsection"],
+Cell[20944, 548, 65, 1, 29, "Input"],
+Cell[CellGroupData[{
+Cell[21034, 553, 148, 4, 44, "Input"],
+Cell[21185, 559, 1188, 36, 285, "Output"],
+Cell[CellGroupData[{
+Cell[22398, 599, 81, 1, 29, "Input"],
+Cell[22482, 602, 74, 2, 28, "Output"]
+}, Open  ]],
+Cell[22571, 607, 208, 5, 29, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22816, 617, 64, 1, 29, "Input"],
+Cell[22883, 620, 29, 0, 28, "Output"]
+}, Open  ]],
+Cell[22927, 623, 80, 1, 29, "Input"],
+Cell[23010, 626, 108, 1, 29, "Input"],
+Cell[CellGroupData[{
+Cell[23143, 631, 92, 1, 29, "Input"],
+Cell[23238, 634, 2277, 47, 319, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[25542, 685, 417, 7, 106, "Text"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[25996, 697, 142, 2, 50, "Section"],
+Cell[CellGroupData[{
+Cell[26163, 703, 133, 2, 29, "Input"],
+Cell[26299, 707, 157, 2, 28, "Output"]
+}, Open  ]]
+}, Closed]]
+}
+]
+*)
+
+(* End of internal cache information *)
