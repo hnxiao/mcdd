@@ -5,7 +5,7 @@ mcddBegin[] := (
 	Clear[cddlib];
 	Off[General::spell1];
 	Off[General::spell];
-    cddlib = Install["~/Binaries/cddwstpgmp"];
+    cddlib = Install["/Users/HXiao/GitHub/mcdd/src/WSTP/mcdd"];
   );
 
 

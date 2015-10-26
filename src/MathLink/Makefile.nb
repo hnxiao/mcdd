@@ -1,0 +1,510 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     29167,        501]
+NotebookOptionsPosition[     28676,        479]
+NotebookOutlinePosition[     29036,        495]
+CellTagsIndexPosition[     28993,        492]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Needs", "[", "\"\<CCompilerDriver`\>\"", "]"}], ";"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Needs", "[", "\"\<SymbolicC`\>\"", "]"}], ";"}], 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"srcdir", "=", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+     "$InitialDirectory", ",", "\"\<GitHub\>\"", ",", "\"\<mcdd\>\"", ",", 
+      "\"\<src\>\"", ",", "\"\<MathLink\>\""}], "}"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"src", "=", 
+   RowBox[{"FileNames", "[", 
+    RowBox[{
+     RowBox[{"{", "\"\<mcdd.*\>\"", "}"}], ",", "srcdir"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"libdir", "=", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+     "$RootDirectory", ",", "\"\<usr\>\"", ",", "\"\<local\>\"", ",", 
+      "\"\<lib\>\""}], "}"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lib", "=", 
+   RowBox[{"FileNames", "[", 
+    RowBox[{
+     RowBox[{"{", "\"\<*gmp.a\>\"", "}"}], ",", "libdir"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"syslibdir", "=", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+     "$InstallationDirectory", ",", "\"\<SystemFiles\>\"", ",", 
+      "\"\<Links\>\"", ",", "\"\<MathLink\>\"", ",", "\"\<DeveloperKit\>\"", 
+      ",", "\"\<MacOSX-x86-64\>\"", ",", "\"\<CompilerAdditions\>\""}], "}"}],
+     "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"syslib", "=", 
+   RowBox[{"FileNames", "[", 
+    RowBox[{
+     RowBox[{"{", "\"\<libMLi4.a\>\"", "}"}], ",", "syslibdir"}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.654743470975287*^9, 3.654743505148354*^9}, {
+   3.654743543533646*^9, 3.65474355066008*^9}, {3.6547437744328527`*^9, 
+   3.6547437983829*^9}, {3.654744095240142*^9, 3.654744115398034*^9}, {
+   3.654744151312665*^9, 3.654744164237027*^9}, {3.654744256574463*^9, 
+   3.654744262749125*^9}, {3.654744410201466*^9, 3.654744441435156*^9}, {
+   3.654744611384666*^9, 3.654744637249613*^9}, {3.6547447872981567`*^9, 
+   3.65474480050517*^9}, {3.654744887553503*^9, 3.654744893871907*^9}, {
+   3.65474493415655*^9, 3.654744966957225*^9}, {3.654745017080205*^9, 
+   3.654745036068347*^9}, {3.654745070433679*^9, 3.65474510032267*^9}, {
+   3.654745133973878*^9, 3.6547451426530247`*^9}, 3.6547451955613747`*^9, {
+   3.654745306162827*^9, 3.654745308919735*^9}, {3.654745381687248*^9, 
+   3.6547453933115473`*^9}, {3.654745448271648*^9, 3.654745461224268*^9}, 
+   3.6547455733005857`*^9, 3.654745624127809*^9, {3.654745693528699*^9, 
+   3.65474570464544*^9}, {3.654746721044137*^9, 3.654746736821134*^9}, {
+   3.6547467702876463`*^9, 3.654746812036942*^9}, {3.6547469435254297`*^9, 
+   3.654746946060503*^9}, {3.6547471436069183`*^9, 3.654747145349145*^9}, {
+   3.65474766775825*^9, 3.6547476749788923`*^9}, {3.654748972861279*^9, 
+   3.654748973270854*^9}, {3.65474907282294*^9, 3.654749110957933*^9}, {
+   3.654749856557865*^9, 3.654749914188868*^9}, {3.654750028614621*^9, 
+   3.654750061830017*^9}, {3.654750376119917*^9, 3.6547503766935377`*^9}, {
+   3.654764674150731*^9, 3.654764683832519*^9}, {3.654764753086993*^9, 
+   3.6547647555815153`*^9}, {3.6547648170820312`*^9, 3.654764903330687*^9}, {
+   3.6547653214966793`*^9, 3.654765438346776*^9}, {3.6547655201414137`*^9, 
+   3.654765527508936*^9}, {3.654765561583799*^9, 3.654765563846292*^9}, {
+   3.654765725304384*^9, 3.654765728911092*^9}, {3.654765970938507*^9, 
+   3.654765979386675*^9}, {3.654766061404709*^9, 3.654766215988492*^9}, {
+   3.654766354659885*^9, 3.6547663771895514`*^9}, {3.6547664116722*^9, 
+   3.6547664241035767`*^9}, {3.6547666003738728`*^9, 
+   3.6547666315496473`*^9}, {3.6547666889477863`*^9, 3.654766700459305*^9}, {
+   3.654766732371904*^9, 3.654766737869239*^9}, {3.6547667762352*^9, 
+   3.6547667783609447`*^9}, {3.6547669734099817`*^9, 3.654767024430643*^9}, {
+   3.654767354918952*^9, 3.654767363796674*^9}, {3.654767688694253*^9, 
+   3.654767716342059*^9}, {3.654769390664098*^9, 3.654769394750321*^9}, {
+   3.654831618688504*^9, 3.6548316288015547`*^9}, {3.6548366400972843`*^9, 
+   3.6548366426385813`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"CreateExecutable", "[", 
+  RowBox[{"src", ",", "\"\<mcdd\>\"", ",", "\[IndentingNewLine]", 
+   RowBox[{
+   "\"\<CompileOptions\>\"", "\[Rule]", 
+    "\"\<-stdlib=libstdc++ -lstdc++\>\""}], ",", "\[IndentingNewLine]", 
+   RowBox[{"\"\<Defines\>\"", "\[Rule]", "\"\<GMPRATIONAL\>\""}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"\"\<Libraries\>\"", "\[Rule]", "lib"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"\"\<SystemLibraries\>\"", "\[Rule]", "syslib"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"\"\<ShellCommandFunction\>\"", "\[RuleDelayed]", "Print"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"\"\<Debug\>\"", "\[Rule]", "True"}], ",", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"To", " ", "make", " ", "it", " ", "work", " ", "properly"}], 
+     ",", " ", 
+     RowBox[{"this", " ", "must", " ", "be", " ", 
+      RowBox[{"true", "!"}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"\"\<TargetDirectory\>\"", "\[Rule]", "srcdir"}]}], "]"}]], "Input",\
+
+ CellChangeTimes->{
+  3.654765756204296*^9, {3.654765837123519*^9, 3.654765837756298*^9}, {
+   3.654765901727975*^9, 3.6547659630571537`*^9}, {3.6547664371061363`*^9, 
+   3.6547664464567432`*^9}, {3.654766481437696*^9, 3.654766484266446*^9}, {
+   3.654766517197451*^9, 3.6547665274446507`*^9}, {3.654766586569956*^9, 
+   3.654766589968588*^9}, {3.654766665195325*^9, 3.654766668683981*^9}, {
+   3.654767139877865*^9, 3.6547671458854923`*^9}, {3.654767182480093*^9, 
+   3.654767271898932*^9}, {3.6547673748472652`*^9, 3.654767383440917*^9}, {
+   3.654767830632854*^9, 3.654767834902431*^9}, {3.6547688369541693`*^9, 
+   3.654768843704646*^9}, {3.654768933327668*^9, 3.654768984018586*^9}, {
+   3.654769439312908*^9, 3.6547694467304487`*^9}, {3.6547695463102503`*^9, 
+   3.654769549637751*^9}, {3.6547700620042477`*^9, 3.654770077745084*^9}, {
+   3.654770502356303*^9, 3.654770511745859*^9}, {3.6547709948967113`*^9, 
+   3.654771004877631*^9}, {3.65477104494289*^9, 3.6547710454060802`*^9}, {
+   3.654836727820321*^9, 3.654836757948886*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"\\\"/Applications/Mathematica.app/SystemFiles/Links/\
+MathLink/DeveloperKit/MacOSX-x86-64/CompilerAdditions/mprep\\\" -o \
+\\\"/Users/HXiao/GitHub/mcdd/src/MathLink/Working-Hans-MacBook-Pro-470-\
+1921830912-23/mcddtm.c\\\"  \\\"/Users/HXiao/GitHub/mcdd/src/MathLink/mcdd.tm\
+\\\"\\n/usr/bin/clang -o \
+\\\"/Users/HXiao/GitHub/mcdd/src/MathLink/Working-Hans-MacBook-Pro-470-\
+1921830912-23/mcdd\\\" -m64 -fPIC -mmacosx-version-min=10.6 -framework \
+Foundation -g -stdlib=libstdc++ -lstdc++ -DGMPRATIONAL \
+-I\\\"/Applications/Mathematica.app/SystemFiles/IncludeFiles/C\\\" \
+-I\\\"/Applications/Mathematica.app/SystemFiles/Links/MathLink/DeveloperKit/\
+MacOSX-x86-64/CompilerAdditions\\\" \
+\\\"/Users/HXiao/GitHub/mcdd/src/MathLink/mcdd.c\\\" \
+\\\"/Users/HXiao/GitHub/mcdd/src/MathLink/Working-Hans-MacBook-Pro-470-\
+1921830912-23/mcddtm.c\\\"  \
+-L\\\"/Applications/Mathematica.app/SystemFiles/Links/MathLink/DeveloperKit/\
+MacOSX-x86-64/CompilerAdditions\\\" \
+-L\\\"/Applications/Mathematica.app/SystemFiles/Libraries/MacOSX-x86-64\\\"  \
+\\\"/Applications/Mathematica.app/SystemFiles/Links/MathLink/DeveloperKit/\
+MacOSX-x86-64/CompilerAdditions/libMLi4.a\\\" \
+\\\"/usr/local/lib/libcddgmp.a\\\" \\\"/usr/local/lib/libgmp.a\\\" -lm \
+-lpthread -lstdc++ 2>&1\"\>"], "Print",
+ CellChangeTimes->{
+  3.6547666714522038`*^9, 3.6547667071477547`*^9, 3.6547667411950483`*^9, {
+   3.6547672442286043`*^9, 3.654767273702289*^9}, {3.654767375402988*^9, 
+   3.654767384224753*^9}, 3.6547677259690237`*^9, 3.654767835345344*^9, 
+   3.654768320861322*^9, 3.6547684000182657`*^9, {3.65476885003345*^9, 
+   3.65476885998449*^9}, {3.654768971651167*^9, 3.6547689878665533`*^9}, 
+   3.654769447804373*^9, 3.654769550940036*^9, 3.654770090191606*^9, 
+   3.654770526723433*^9, 3.654771024576311*^9, 3.6548315967806892`*^9, 
+   3.654831635185987*^9, 3.654836661353445*^9, {3.654836746423012*^9, 
+   3.654836760470498*^9}}],
+
+Cell[BoxData["\<\"ld: warning: object file \
+(/usr/local/lib/libgmp.a(canonicalize.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt53-clear.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(get_den.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(get_num.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt61-init.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt67-set.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt4-clear.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt9-cmp_ui.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt20-get_str.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt22-init.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddio.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddcore.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddmp.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(setoper.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(memory.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(errno.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(tal-reent.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mp_bases.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mp_clz_tab.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt88-get_str.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(aors.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt55-cmp.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt58-div.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt59-get_d.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt64-mul.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt66-out_str.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(set_den.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(set_num.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt68-set_si.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt70-set_ui.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(divegcd.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(gcd.o)) was built for newer OSX version (10.11) than \
+being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt29-iset_str.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(realloc.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt42-set_si.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt44-set_ui.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddlib.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddlp.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddlib_f.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddmp_f.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mp_bpl.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(assert.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(bdiv_dbm1c.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(dive_1.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt97-gcd.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(gcd_1.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt101-get_d.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lshift.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt82-mul.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mul_1.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(pre_divrem_1.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(rshift.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(sqr.o)) was built for newer OSX version (10.11) than \
+being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt99-tdiv_qr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt2-add.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(divexact.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt31-mul.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt36-out_str.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt39-set.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt43-set_str.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt47-sub.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(tdiv_q_2exp.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddcore_f.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddio_f.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libcddgmp.a(cddlp_f.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mp_minv_tab.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mp_dv_tab.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(add_n.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(dcpi1_div_qr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt103-divexact.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(divrem_1.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(divrem_2.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(gcd_subdiv_step.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(hgcd.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(hgcd2.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(hgcd_matrix.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(matrix22_mul1_inverse_vector.o)) was built for newer \
+OSX version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mod_1.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mode1o.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mu_div_qr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mul_basecase.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mul_n.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(nussbaumer_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(sbpi1_div_qr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lt89-set_str.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(sqr_basecase.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(sub_n.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(submul_1.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom22_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom2_sqr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom32_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom33_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom3_sqr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom42_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom43_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom44_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom53_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom63_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom6_sqr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom6h_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom8_sqr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom8h_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(addmul_1.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(bdiv_q.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(hgcd_reduce.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(hgcd_step.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(invertappr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(matrix22_mul.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mulmod_bnm1.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(sqrmod_bnm1.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_couple_handling.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_eval_dgr3_pm1.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_eval_dgr3_pm2.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_eval_pm1.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_eval_pm2.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_eval_pm2exp.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_eval_pm2rexp.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_interpolate_12pts.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_interpolate_16pts.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_interpolate_5pts.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_interpolate_6pts.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_interpolate_7pts.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(toom_interpolate_8pts.o)) was built for newer OSX \
+version (10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(dcpi1_bdiv_q.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mul_fft.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(hgcd_appr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mu_bdiv_q.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(sbpi1_bdiv_q.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(sbpi1_divappr_q.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(binvert.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(dcpi1_bdiv_qr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(lshiftc.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mullo_n.o)) was built for newer OSX version (10.11) \
+than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(sbpi1_bdiv_qr.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\\nld: warning: object file \
+(/usr/local/lib/libgmp.a(mullo_basecase.o)) was built for newer OSX version \
+(10.11) than being linked (10.6)\"\>"], "Print",
+ CellChangeTimes->{
+  3.6547666714522038`*^9, 3.6547667071477547`*^9, 3.6547667411950483`*^9, {
+   3.6547672442286043`*^9, 3.654767273702289*^9}, {3.654767375402988*^9, 
+   3.654767384224753*^9}, 3.6547677259690237`*^9, 3.654767835345344*^9, 
+   3.654768320861322*^9, 3.6547684000182657`*^9, {3.65476885003345*^9, 
+   3.65476885998449*^9}, {3.654768971651167*^9, 3.6547689878665533`*^9}, 
+   3.654769447804373*^9, 3.654769550940036*^9, 3.654770090191606*^9, 
+   3.654770526723433*^9, 3.654771024576311*^9, 3.6548315967806892`*^9, 
+   3.654831635185987*^9, 3.654836661353445*^9, {3.654836746423012*^9, 
+   3.65483676077949*^9}}]
+}, Open  ]],
+
+Cell[BoxData["\<\"/Users/HXiao/GitHub/mcdd/src/MathLink/mcdd\"\>"], "Output",
+ CellChangeTimes->{
+  3.65476586374469*^9, 3.654765904203054*^9, {3.65476594457115*^9, 
+   3.654765963701468*^9}, 3.6547665348773737`*^9, 3.654766591503499*^9, 
+   3.6547666356707907`*^9, 3.654766671458323*^9, 3.654766707244157*^9, 
+   3.654766741216436*^9, {3.654767244633049*^9, 3.654767274112924*^9}, {
+   3.654767375803924*^9, 3.654767384306587*^9}, 3.654767725985981*^9, 
+   3.654767835689115*^9, 3.654768321353745*^9, 3.654768400876033*^9, {
+   3.654768850374058*^9, 3.654768860312718*^9}, {3.6547689716671047`*^9, 
+   3.654768988198752*^9}, 3.65476944849928*^9, 3.654769551333728*^9, 
+   3.654770091022913*^9, 3.6547705271614923`*^9, 3.654771024957405*^9, 
+   3.6548315972943687`*^9, 3.6548316354892673`*^9, 3.6548366618067217`*^9, {
+   3.654836746439351*^9, 3.654836760795393*^9}}]
+}, Open  ]]
+},
+WindowSize->{808, 577},
+WindowMargins->{{Automatic, 173}, {-29, Automatic}},
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (September 9, \
+2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 4155, 84, 182, "Input"],
+Cell[CellGroupData[{
+Cell[4738, 108, 2040, 37, 148, "Input"],
+Cell[CellGroupData[{
+Cell[6803, 149, 1926, 30, 262, "Print"],
+Cell[8732, 181, 19046, 280, 4326, "Print"]
+}, Open  ]],
+Cell[27793, 464, 867, 12, 86, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
