@@ -20,8 +20,8 @@ VertexEnumeration::usage="VertexEnumeration[A,b] returns the vertex list of the 
 VertexEnumeration[A_List,b_List]:=Module[{M,rown,coln,vl},
 	M=MapThread[Insert,{-A,b,Table[1,{Length[b]}]}];
 	{rown,coln}=Dimensions[M];
-	vl=AllVertices[rown, coln, ToString[Flatten@M]][[1,1]];
-	Return[ToExpression/@vl]];
+	vl=ToExpression/@AllVertices[rown, coln, ToString[Flatten@M]][[1,1]];
+	Return[Drop[#,1]&/@vl]]; (*The last operation drops the indicator of vertices.*)
 
 
 cddBegin[];
